@@ -9,7 +9,7 @@ An internet connection
 
 #### USAGE:
 On GNU/Linux \
-`$ ./imdb.py <name of show/movie>` \ or `python3 imdb.py <nameof show/movie>`
+`$ ./imdb.py <name of show/movie>` or `python3 imdb.py <nameof show/movie>`
 Example: \
 `$ ./imdb.py fight club` \
 On windows: \
