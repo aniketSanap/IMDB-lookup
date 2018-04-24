@@ -37,29 +37,31 @@ if len(sys.argv) > 1:
     table = soup.table
     print("Finding...")
     flag = 1
-    firstResult = 0
-    firstUrl = ""
-    firstTitle = ""
+    urls = []
+
     for url in table.find_all('a'):
-        if firstResult < 2:
-            firstUrl = url.get('href')
-            firstResult = firstResult + 1
-            firstTitle = url.text
-        if str(url.text.lower()) == actualQuery.lower():
-            flag = 0
-            print("Found")
-            newURL = baseURL + url.get('href')
-            print(newURL)
-            soup = openUrl(newURL)
-            findRating(soup)
-            break
+        if "title" in str(url.get('href')) and url.text != "":
+            urls.append(url)
+            if str(url.text.lower()) == actualQuery.lower():
+                flag = 0
+                print("Found")
+                newURL = baseURL + url.get('href')
+                print(newURL)
+                soup = openUrl(newURL)
+                findRating(soup)
+                break    
+        
     if flag:
         print("Not found")
-        if "title" in firstUrl:
-            print("Using best result: " + firstTitle)
-            newURL = baseURL + firstUrl
-            soup = openUrl(newURL)
-            findRating(soup)  
+        print ("Did you mean:")
+        for i in range(0, len(urls)):
+            print(i+1,". " + urls[i].text)
+        index = int(input())
+        print("Finding the rating of: " + str(urls[index-1].text))
+        print("url: " + str(urls[index-1].get('href')))
+        newUrl = baseURL + urls[index-1].get('href')
+        soup = openUrl(newUrl)
+        findRating(soup)    
 
 else:
     print("Enter the name of the movie/show")
